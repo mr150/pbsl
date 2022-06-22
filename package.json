@@ -1,0 +1,27 @@
+{
+  "name": "pbsl",
+  "version": "0.1.0",
+  "description": "Functional library for manipulation of pairs-based data structures with Sass-like API",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "sass",
+    "sicp",
+    "typescript"
+  ],
+  "author": "mr150",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chai": "^4.3.1",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
+    "chai": "^4.3.6",
+    "eslint": "^8.18.0",
+    "mocha": "^10.0.0",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.4"
+  }
+}
