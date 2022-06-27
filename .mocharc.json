@@ -2,5 +2,6 @@
 	"extension": ["ts"],
 	"require": ["ts-node/register"],
 	"watch-files": ["src/**/*.ts", "test/**/*.ts"],
+	"recursive": true,
 	"reporter": "min"
 }
