@@ -1,12 +1,16 @@
-import { pair, fir, sec } from '../pair';
+import { pair, fir, sec, isPair } from '../pair';
 import type { List, EmptyList } from './types';
 
 function fillList(items: unknown[]): List {
-	if(items.length > 1) {
-		return pair(items[0], fillList(items.slice(1)));
-	}
+	return pair(
+		items[0],
+		(items.length > 1) ? fillList(items.slice(1)) : null,
+		'list'
+	);
+}
 
-	return pair(items[0], null);
+export function prepand(ls: List, val: unknown): List {
+	return pair(val, ls, 'list');
 }
 
 export function l(...items: unknown[]): List {
@@ -17,11 +21,7 @@ export function l(...items: unknown[]): List {
 	return fillList(items);
 }
 
-export function prepand(ls: List, val: unknown): List {
-	return pair(val, ls);
-}
-
-export const isEmpty = (ls: List): ls is EmptyList => ls === null;
+export const isEmpty = (ls: unknown): ls is EmptyList => ls === null;
 
 export const top = (ls: List): unknown => {
 	if(isEmpty(ls)) {
@@ -39,7 +39,15 @@ export const tail = (ls: List): List | null => {
 	return <List>sec(ls);
 }
 
-export function toString(ls: List, isNested = true): string {
+export function isFilledList(ls: unknown): ls is List {
+	try {
+		return typeof ls === 'function' && ls('TYPE') === 'list';
+	} catch {
+		return false;
+	}
+}
+
+export function toString(ls: List, isNested = true, insidePair = false): string {
 	const separator = isNested ? '(' : ', ';
 
 	if(isEmpty(ls)) {
@@ -50,10 +58,22 @@ export function toString(ls: List, isNested = true): string {
 		return ', ' + <string>ls + ')';
 	}
 
-	const head = fir(ls);
-	const rest = sec(ls);
+	const head = top(ls);
+	const rest = tail(ls);
 
-	const headStr = typeof head === 'function' ? toString(<List>head) : head;
+	let headStr: unknown;
 
-	return separator + <string>headStr + toString(<List>rest, false);
+	if(isPair(head)) {
+		headStr = toString(<List>head, true, true);
+	} else if(isFilledList(head)) {
+		headStr = toString(head);
+	} else {
+		headStr = head;
+	}
+
+	const restStr = isPair(rest) || (insidePair && isFilledList(rest)) ?
+		`, ${toString(rest)})` :
+		toString(rest, false);
+
+	return separator + <string>headStr + restStr;
 }

@@ -34,8 +34,36 @@ describe('list/core', () => {
 			'((te, sto), testou, (t, esto))'
 		);
 		assert.strictEqual(
+			toString(l(
+				pair(pair(1, 2), pair(5, 4)),
+				pair(pair(3, 6), 0)
+			)),
+			'(((1, 2), (5, 4)), ((3, 6), 0))'
+		);
+	});
+
+	it('print a list with lists inside', () => {
+		assert.strictEqual(
 			toString(l(l(1, 0, 5), l(3, 6, 0))),
 			'((1, 0, 5), (3, 6, 0))'
+		);
+
+		assert.strictEqual(
+			toString(l(1, pair(l(3, 4, 8), 9))),
+			'(1, ((3, 4, 8), 9))'
+		);
+
+		assert.strictEqual(
+			toString(l(pair(3, l(6, 7)), 1)),
+			'((3, (6, 7)), 1)'
+		);
+
+		assert.strictEqual(
+			toString(l(
+				pair(3, l(6, 7)),
+				pair(l(3, 4, 8), l(6, 7, 9))
+			)),
+			'((3, (6, 7)), ((3, 4, 8), (6, 7, 9)))'
 		);
 	});
 
