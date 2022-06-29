@@ -1,24 +1,23 @@
 import { pair, fir, sec, isPair } from '../pair';
 import type { List, EmptyList } from './types';
 
-function fillList(items: unknown[]): List {
-	return pair(
-		items[0],
-		(items.length > 1) ? fillList(items.slice(1)) : null,
-		'list'
-	);
-}
 
 export function prepand(ls: List, val: unknown): List {
 	return pair(val, ls, 'list');
 }
 
-export function l(...items: unknown[]): List {
+export function l(...items: unknown[]) {
 	if(!items.length) {
 		return null;
 	}
 
-	return fillList(items);
+	return (function fillList(items: unknown[]): List {
+		return pair(
+			items[0],
+			(items.length > 1) ? fillList(items.slice(1)) : null,
+			'list'
+		);
+	}(items));
 }
 
 export const isEmpty = (ls: unknown): ls is EmptyList => ls === null;
@@ -47,33 +46,35 @@ export function isFilledList(ls: unknown): ls is List {
 	}
 }
 
-export function toString(ls: List, isNested = true, insidePair = false): string {
-	const separator = isNested ? '(' : ', ';
+export function toString(list: List) {
+	return (function print(ls: List, isNested = true, insidePair = false): string {
+		const separator = isNested ? '(' : ', ';
 
-	if(isEmpty(ls)) {
-		return (isNested ? separator : '') + ')';
-	}
+		if(isEmpty(ls)) {
+			return (isNested ? separator : '') + ')';
+		}
 
-	if(typeof ls !== 'function') {
-		return ', ' + <string>ls + ')';
-	}
+		if(typeof ls !== 'function') {
+			return ', ' + <string>ls + ')';
+		}
 
-	const head = top(ls);
-	const rest = tail(ls);
+		const head = top(ls);
+		const rest = tail(ls);
 
-	let headStr: unknown;
+		let headStr: unknown;
 
-	if(isPair(head)) {
-		headStr = toString(<List>head, true, true);
-	} else if(isFilledList(head)) {
-		headStr = toString(head);
-	} else {
-		headStr = head;
-	}
+		if(isPair(head)) {
+			headStr = print(<List>head, true, true);
+		} else if(isFilledList(head)) {
+			headStr = print(head);
+		} else {
+			headStr = head;
+		}
 
-	const restStr = isPair(rest) || (insidePair && isFilledList(rest)) ?
-		`, ${toString(rest)})` :
-		toString(rest, false);
+		const restStr = isPair(rest) || (insidePair && isFilledList(rest)) ?
+			`, ${print(rest)})` :
+			print(rest, false);
 
-	return separator + <string>headStr + restStr;
+		return separator + <string>headStr + restStr;
+	}(list));
 }
