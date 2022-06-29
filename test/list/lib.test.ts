@@ -1,5 +1,5 @@
 import { pair, Pair } from '../../src/pair';
-import { l, toString, prepand, map, filter, reduce, append, List } from '../../src/list';
+import { l, toString, prepand, map, filter, reduce, append, List, findIndex, find, index, nth } from '../../src/list';
 import {assert} from 'chai';
 
 describe('list/lib', () => {
@@ -67,5 +67,50 @@ describe('list/lib', () => {
 			toString(append(l(), 5)),
 			'(5)'
 		);
+	});
+
+	it('find item index', () => {
+		assert.strictEqual(
+			findIndex<number>(myList, (item) => item === 5),
+			1
+		);
+
+		assert.strictEqual(
+			findIndex<number>(l(), (item) => item === 5),
+			null
+		);
+
+		assert.strictEqual(
+			findIndex<number>(myList, (item, i) => item < i),
+			null
+		);
+
+		assert.strictEqual(
+			index(myList, 6),
+			2
+		);
+	});
+
+	it('find item with function or index', () => {
+		assert.strictEqual(
+			find<number>(myList, (item) => !(item%5)),
+			5
+		);
+
+		assert.strictEqual(
+			find<number>(myList, (item) => !(item%9)),
+			null
+		);
+
+		assert.strictEqual(
+			find<number>(l(), (item) => true),
+			null
+		);
+
+		assert.strictEqual(
+			nth(myList, 2),
+			6
+		);
+
 	});
 });

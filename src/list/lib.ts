@@ -54,3 +54,39 @@ export function append(ls: List, val: unknown): List {
 		top(ls)
 	);
 }
+
+export function findIndex<T = unknown>(list: List, callback: IterationCb<T, boolean>) {
+	return (function getIndex(ls: List, index: number): number | null  {
+		if(isEmpty(ls)) {
+			return null;
+		}
+
+		const head = <T>top(ls);
+
+		return callback(head, index) ?
+			index :
+			getIndex(tail(ls), index + 1);
+	}(list, 0))
+}
+
+export function find<T = unknown>(list: List, callback: IterationCb<T, boolean>) {
+	return (function checkItem(ls: List, index: number): T | null  {
+		if(isEmpty(ls)) {
+			return null;
+		}
+
+		const head = <T>top(ls);
+
+		return callback(head, index) ?
+			head :
+			checkItem(tail(ls), index + 1);
+	}(list, 0))
+}
+
+export function index(ls: List, val: unknown): number | null {
+	return findIndex(ls, (item) => item === val);
+}
+
+export function nth(ls: List, index: number): unknown | null {
+	return find(ls, (item, i) => index === i);
+}
