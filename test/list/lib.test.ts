@@ -79,12 +79,12 @@ describe('list/lib', () => {
 
 		assert.strictEqual(
 			findIndex<number>(l(), (item) => item === 5),
-			null
+			-1
 		);
 
 		assert.strictEqual(
 			findIndex<number>(myList, (item, i) => item < i),
-			null
+			-1
 		);
 
 		assert.equal(index(myList, 6), 2);
@@ -98,15 +98,15 @@ describe('list/lib', () => {
 
 		assert.strictEqual(
 			find<number>(myList, (item) => !(item%9)),
-			null
+			undefined
 		);
 
 		assert.strictEqual(
 			find<number>(l(), (item) => true),
-			null
+			undefined
 		);
 
-		assert.strictEqual(nth(myList, 2), 6);
+		assert.strictEqual(nth<number>(myList, 2), 6);
 	});
 
 	it('get length of list', () => {

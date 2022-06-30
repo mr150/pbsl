@@ -57,9 +57,9 @@ export function append(ls: List, val: unknown): List {
 }
 
 export function findIndex<T = unknown>(list: List, callback: IterationCb<T, boolean>) {
-	return (function getIndex(ls: List, index = 0): number | null  {
+	return (function getIndex(ls: List, index = 0): number {
 		if(isEmpty(ls)) {
-			return null;
+			return -1;
 		}
 
 		const head = <T>top(ls);
@@ -70,14 +70,14 @@ export function findIndex<T = unknown>(list: List, callback: IterationCb<T, bool
 	}(list));
 }
 
-export function index(ls: List, val: unknown): number | null {
+export function index(ls: List, val: unknown): ReturnType<typeof findIndex> {
 	return findIndex(ls, (item) => item === val);
 }
 
 export function find<T = unknown>(list: List, callback: IterationCb<T, boolean>) {
-	return (function checkItem(ls: List, index = 0): T | null  {
+	return (function checkItem(ls: List, index = 0): T | undefined  {
 		if(isEmpty(ls)) {
-			return null;
+			return undefined;
 		}
 
 		const head = <T>top(ls);
@@ -88,8 +88,8 @@ export function find<T = unknown>(list: List, callback: IterationCb<T, boolean>)
 	}(list));
 }
 
-export function nth(ls: List, index: number): unknown | null {
-	return find(ls, (item, i) => index === i);
+export function nth<T = unknown>(ls: List, index: number): T | undefined {
+	return find<T>(ls, (item, i) => index === i);
 }
 
 export function length(list: List) {
