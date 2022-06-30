@@ -1,5 +1,7 @@
 import { pair, Pair } from '../../src/pair';
-import { l, toString, prepand, map, filter, reduce, append, List, findIndex, find, index, nth } from '../../src/list';
+import { l, toString, prepand } from '../../src/list/core';
+import { List } from '../../src/list/types';
+import { map, filter, reduce, append, findIndex, find, index, nth, length, setNth, join } from '../../src/list/lib';
 import {assert} from 'chai';
 
 describe('list/lib', () => {
@@ -85,10 +87,7 @@ describe('list/lib', () => {
 			null
 		);
 
-		assert.strictEqual(
-			index(myList, 6),
-			2
-		);
+		assert.equal(index(myList, 6), 2);
 	});
 
 	it('find item with function or index', () => {
@@ -107,10 +106,48 @@ describe('list/lib', () => {
 			null
 		);
 
-		assert.strictEqual(
-			nth(myList, 2),
-			6
+		assert.strictEqual(nth(myList, 2), 6);
+	});
+
+	it('get length of list', () => {
+		assert.equal(length(myList), 3);
+		assert.equal(length(l()), 0);
+	});
+
+	it('set the list item by index', () => {
+		assert.equal(
+			toString(setNth(myList, 1, 10)),
+			'(2, 10, 6)'
 		);
 
+		assert.equal(
+			toString(setNth(myList, -1, 20)),
+			'(2, 5, 20)'
+		);
+
+		assert.throws(() => setNth(myList, 5, 10), "Index '5' outside the list");
+		assert.throws(() => setNth(myList, -4, 10), "Index '-4' outside the list");
+	});
+
+	it('join two lists', () => {
+		assert.equal(
+			toString(join(myList, l(7, 8, 9))),
+			'(2, 5, 6, 7, 8, 9)'
+		);
+
+		assert.equal(
+			toString(join(myList, l())),
+			'(2, 5, 6)'
+		);
+
+		assert.equal(
+			toString(join(l(), myList)),
+			'(2, 5, 6)'
+		);
+
+		assert.equal(
+			toString(join(l(), l())),
+			'()'
+		);
 	});
 });

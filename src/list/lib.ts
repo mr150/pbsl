@@ -91,3 +91,53 @@ export function find<T = unknown>(list: List, callback: IterationCb<T, boolean>)
 export function nth(ls: List, index: number): unknown | null {
 	return find(ls, (item, i) => index === i);
 }
+
+export function length(list: List) {
+	return (function counter(ls: List, result = 0): number {
+		if(isEmpty(ls)) {
+			return result;
+		}
+
+		return counter(tail(ls), result + 1);
+	}(list));
+}
+
+export function setNth(list: List, index: number, value: unknown) {
+	if(index < 0) {
+		const lsLength = length(list);
+
+		if(index < -lsLength) {
+			throw new Error(`Index '${index}' outside the list`);
+		}
+
+		index = lsLength + index;
+	}
+
+	return (function getItem(ls: List, i = 0): List | never  {
+		if(isEmpty(ls)) {
+			throw new Error(`Index '${index}' outside the list`);
+		}
+
+		if(i === index) {
+			return prepand(tail(ls), value);
+		}
+
+		return prepand(
+			getItem(tail(ls), i + 1),
+			top(ls)
+		);
+	}(list));
+}
+
+export function join(list0: List, list1: List) {
+	return (function getList(ls: List): List {
+		if(isEmpty(ls)) {
+			return list1;
+		}
+
+		return prepand(
+			getList(tail(ls)),
+			top(ls)
+		);
+	}(list0));
+}
