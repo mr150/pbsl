@@ -20,10 +20,13 @@ export function filter<T>(list: List, callback: IterationCb<T, boolean>) {
 		}
 
 		const head = <T>top(ls);
+		const rest = checkItem(tail(ls), index + 1);
 
-		return callback(head, index) ?
-			prepand(checkItem(tail(ls), index + 1), head) :
-			checkItem(tail(ls), index + 1);
+		if(callback(head, index)) {
+			return prepand(rest, head);
+		}
+
+		return rest;
 	}(list));
 }
 
@@ -45,14 +48,14 @@ export function reduce<T0, T1 = T0>(list: List, callback: ReduceCb<T0, T1>, init
 	}(list, initValue));
 }
 
-export function append(ls: List, val: unknown): List {
-	if(isEmpty(ls)) {
-		return prepand(ls, val);
+export function append(list: List, value: unknown): List {
+	if(isEmpty(list)) {
+		return prepand(list, value);
 	}
 
 	return prepand(
-		append(tail(ls), val),
-		top(ls)
+		append(tail(list), value),
+		top(list)
 	);
 }
 
@@ -64,14 +67,16 @@ export function findIndex<T = unknown>(list: List, callback: IterationCb<T, bool
 
 		const head = <T>top(ls);
 
-		return callback(head, index) ?
-			index :
-			getIndex(tail(ls), index + 1);
+		if(callback(head, index)) {
+			return index;
+		}
+
+		return getIndex(tail(ls), index + 1);
 	}(list));
 }
 
-export function index(ls: List, val: unknown): ReturnType<typeof findIndex> {
-	return findIndex(ls, (item) => item === val);
+export function index(list: List, value: unknown): ReturnType<typeof findIndex> {
+	return findIndex(list, (item) => item === value);
 }
 
 export function find<T = unknown>(list: List, callback: IterationCb<T, boolean>) {
@@ -82,14 +87,16 @@ export function find<T = unknown>(list: List, callback: IterationCb<T, boolean>)
 
 		const head = <T>top(ls);
 
-		return callback(head, index) ?
-			head :
-			checkItem(tail(ls), index + 1);
+		if(callback(head, index)) {
+			return head;
+		}
+
+		return checkItem(tail(ls), index + 1);
 	}(list));
 }
 
-export function nth<T = unknown>(ls: List, index: number): T | undefined {
-	return find<T>(ls, (item, i) => index === i);
+export function nth<T = unknown>(list: List, index: number): T | undefined {
+	return find<T>(list, (item, i) => index === i);
 }
 
 export function length(list: List) {
