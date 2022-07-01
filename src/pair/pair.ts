@@ -11,9 +11,8 @@ export function pair<T0, T1>(a: T0, b: T1, type = 'pair'): Pair<T0, T1> {
 	};
 }
 
-// I don't know yet, how to typify this better
-export const fir = (pair: Pair): unknown => pair('FIR');
-export const sec = (pair: Pair): unknown => pair('SEC');
+export const fir = <F, S>(pair: Pair<F, S>): F => <F>pair('FIR');
+export const sec = <F, S>(pair: Pair<F, S>): S => <S>pair('SEC');
 
 export function isPair(pair: unknown): pair is Pair {
 	try {
