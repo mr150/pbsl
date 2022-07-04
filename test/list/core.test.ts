@@ -4,7 +4,7 @@ import {assert} from 'chai';
 
 describe('list/core', () => {
 	const myList = l(2, 5, 6);
-	const pairInList = l(pair(1, 0), 'item', 'end');
+	const pairInList = l<unknown>(pair(1, 0), 'item', 'end');
 	const empty = l();
 
 	it('check empty list', () => {
@@ -30,11 +30,11 @@ describe('list/core', () => {
 	it('print a list with pairs inside', () => {
 		assert.strictEqual(toString(pairInList), '((1, 0), item, end)');
 		assert.strictEqual(
-			toString(l(pair('te', 'sto'), 'testou', pair('t', 'esto'))),
+			toString(l<any>(pair('te', 'sto'), 'testou', pair('t', 'esto'))),
 			'((te, sto), testou, (t, esto))'
 		);
 		assert.strictEqual(
-			toString(l(
+			toString(l<any>(
 				pair(pair(1, 2), pair(5, 4)),
 				pair(pair(3, 6), 0)
 			)),
@@ -49,17 +49,17 @@ describe('list/core', () => {
 		);
 
 		assert.strictEqual(
-			toString(l(1, pair(l(3, 4, 8), 9))),
+			toString(l<unknown>(1, pair(l(3, 4, 8), 9))),
 			'(1, ((3, 4, 8), 9))'
 		);
 
 		assert.strictEqual(
-			toString(l(pair(3, l(6, 7)), 1)),
+			toString(l<unknown>(pair(3, l(6, 7)), 1)),
 			'((3, (6, 7)), 1)'
 		);
 
 		assert.strictEqual(
-			toString(l(
+			toString(l<any>(
 				pair(3, l(6, 7)),
 				pair(l(3, 4, 8), l(6, 7, 9))
 			)),
@@ -74,7 +74,7 @@ describe('list/core', () => {
 		);
 
 		assert.strictEqual(
-			toString(prepand(myList, l(1, 3, 8))),
+			toString(prepand<unknown>(myList, l(1, 3, 8))),
 			'((1, 3, 8), 2, 5, 6)'
 		);
 	});

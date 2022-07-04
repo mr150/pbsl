@@ -2,17 +2,17 @@ import { pair, fir, sec, isPair } from '../pair';
 import type { List, EmptyList } from './types';
 
 
-export function prepand(ls: List, val: unknown): List {
-	return pair(val, ls, 'list');
+export function prepand<T>(ls: List<T>, val: T): List<T> {
+	return <List<T>>pair(val, ls, 'list');
 }
 
-export function l(...items: unknown[]) {
+export function l<T>(...items: T[]) {
 	if(!items.length) {
 		return null;
 	}
 
-	return (function fillList(items: unknown[]): List {
-		return pair(
+	return (function fillList(items: T[]): List<T> {
+		return <List<T>>pair(
 			items[0],
 			(items.length > 1) ? fillList(items.slice(1)) : null,
 			'list'
@@ -22,7 +22,7 @@ export function l(...items: unknown[]) {
 
 export const isEmpty = (ls: unknown): ls is EmptyList => ls === null;
 
-export const top = (ls: List): unknown => {
+export const top = <T>(ls: List<T>): T | null => {
 	if(isEmpty(ls)) {
 		return null;
 	}
@@ -30,12 +30,12 @@ export const top = (ls: List): unknown => {
 	return fir(ls);
 }
 
-export const tail = (ls: List): List | null => {
+export const tail = <T>(ls: List<T>): List<T> => {
 	if(isEmpty(ls)) {
 		return null;
 	}
 
-	return <List>sec(ls);
+	return sec(ls);
 }
 
 export function isFilledList(ls: unknown): ls is List {

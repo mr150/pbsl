@@ -1,6 +1,5 @@
-import { pair, Pair } from '../../src/pair';
+import { pair } from '../../src/pair';
 import { l, toString, prepand } from '../../src/list/core';
-import { List } from '../../src/list/types';
 import { map, filter, reduce, append, findIndex, find, index, nth, length, setNth, join } from '../../src/list/lib';
 import {assert} from 'chai';
 
@@ -10,51 +9,51 @@ describe('list/lib', () => {
 
 	it('mapping', () => {
 		assert.strictEqual(
-			toString(map<number>(myList, (item) => item * 10)),
+			toString(map(myList, (item) => item * 10)),
 			'(20, 50, 60)'
 		);
 
 		assert.equal(
-			map<number>(empty, (item) => item * 10),
+			map(empty, (item) => item),
 			l(),
 		);
 
 		assert.strictEqual(
-			toString(map<number, Pair>(myList, (item, i) => pair(i, item))),
+			toString(map(myList, (item, i) => pair(i, item))),
 			'((0, 2), (1, 5), (2, 6))'
 		);
 	});
 
 	it('filter', () => {
 		assert.strictEqual(
-			toString(filter<number>(myList, (item) => !(item%2))),
+			toString(filter(myList, (item) => !(item%2))),
 			'(2, 6)'
 		);
 
 		assert.strictEqual(
-			toString(filter<number>(myList, (item, i) => item < i)),
+			toString(filter(myList, (item, i) => item < i)),
 			'()'
 		);
 	});
 
 	it('reduce', () => {
 		assert.strictEqual(
-			reduce<number>(myList, (accum, item) => accum += item),
+			reduce(myList, (accum: number, item) => accum += item),
 			13,
 		);
 
 		assert.strictEqual(
-			toString(reduce<number, List>(myList, (accum, item, i) => prepand(accum, item + i), l())),
+			toString(reduce(myList, (accum, item, i) => prepand(accum, item + i), l())),
 			'(8, 6, 2)'
 		);
 
 		assert.strictEqual(
-			reduce<number, string>(l(), (accum, item) => accum += item, '0'),
+			reduce(l(), (accum, item) => accum += item, '0'),
 			'0',
 		);
 
 		assert.strictEqual(
-			reduce<number>(l(), (accum, item) => accum -= item),
+			reduce(l(), (accum, item) => accum || item),
 			null,
 		);
 	});
@@ -73,17 +72,17 @@ describe('list/lib', () => {
 
 	it('find item index', () => {
 		assert.strictEqual(
-			findIndex<number>(myList, (item) => item === 5),
+			findIndex(myList, (item) => item === 5),
 			1
 		);
 
 		assert.strictEqual(
-			findIndex<number>(l(), (item) => item === 5),
+			findIndex(l(), (item) => item === 5),
 			-1
 		);
 
 		assert.strictEqual(
-			findIndex<number>(myList, (item, i) => item < i),
+			findIndex(myList, (item, i) => item < i),
 			-1
 		);
 
@@ -92,21 +91,21 @@ describe('list/lib', () => {
 
 	it('find item with function or index', () => {
 		assert.strictEqual(
-			find<number>(myList, (item) => !(item%5)),
+			find(myList, (item) => !(item%5)),
 			5
 		);
 
 		assert.strictEqual(
-			find<number>(myList, (item) => !(item%9)),
+			find(myList, (item) => !(item%9)),
 			undefined
 		);
 
 		assert.strictEqual(
-			find<number>(l(), (item) => true),
+			find(l(), (item) => true),
 			undefined
 		);
 
-		assert.strictEqual(nth<number>(myList, 2), 6);
+		assert.strictEqual(nth(myList, 2), 6);
 	});
 
 	it('get length of list', () => {

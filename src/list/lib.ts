@@ -1,20 +1,20 @@
 import type { List, IterationCb, ReduceCb } from './types';
 import { l, top, tail, isEmpty, prepand } from './core';
 
-export function map<T0, T1 = T0>(list: List, callback: IterationCb<T0, T1>) {
-	return (function mapItem(ls: List, index = 0): List {
+export function map<I, R>(list: List<I>, callback: IterationCb<I, R>) {
+	return (function mapItem(ls: List<I>, index = 0): List<R> {
 		if(isEmpty(ls)) {
 			return l();
 		}
 
-		const head = <T0>top(ls);
+		const head = <I>top(ls);
 		const newItem = callback(head, index);
 		return prepand(mapItem(tail(ls), index + 1), newItem);
 	}(list));
 }
 
-export function filter<T>(list: List, callback: IterationCb<T, boolean>) {
-	return (function checkItem(ls: List, index = 0): List {
+export function filter<T>(list: List<T>, callback: IterationCb<T, boolean>) {
+	return (function checkItem(ls: List<T>, index = 0): List<T> {
 		if(isEmpty(ls)) {
 			return l();
 		}
@@ -30,37 +30,37 @@ export function filter<T>(list: List, callback: IterationCb<T, boolean>) {
 	}(list));
 }
 
-export function reduce<T0, T1 = T0>(list: List, callback: ReduceCb<T0, T1>, initValue?: T0 | T1) {
-	return (function reduceItem(ls: List, result: typeof initValue, index = 0): T1 | null {
+export function reduce<I, R>(list: List<I>, callback: ReduceCb<I, R>, initValue?: I | R) {
+	return (function reduceItem(ls: List<I>, result: typeof initValue, index = 0): R | null {
 		if(isEmpty(ls)) {
-			return <T1>result || null;
+			return <R>result || null;
 		}
 
-		const head = <T0>top(ls);
+		const head = <I>top(ls);
 
 		if(result === undefined) {
 			result = head;
 		} else {
-			result = callback(<T1>result, head, index);
+			result = callback(<R>result, head, index);
 		}
 
 		return reduceItem(tail(ls), result, index + 1);
 	}(list, initValue));
 }
 
-export function append(list: List, value: unknown): List {
+export function append<T>(list: List<T>, value: T): List<T> {
 	if(isEmpty(list)) {
 		return prepand(list, value);
 	}
 
 	return prepand(
 		append(tail(list), value),
-		top(list)
+		<T>top(list)
 	);
 }
 
-export function findIndex<T = unknown>(list: List, callback: IterationCb<T, boolean>) {
-	return (function getIndex(ls: List, index = 0): number {
+export function findIndex<T>(list: List<T>, callback: IterationCb<T, boolean>) {
+	return (function getIndex(ls: List<T>, index = 0): number {
 		if(isEmpty(ls)) {
 			return -1;
 		}
@@ -75,12 +75,12 @@ export function findIndex<T = unknown>(list: List, callback: IterationCb<T, bool
 	}(list));
 }
 
-export function index(list: List, value: unknown): ReturnType<typeof findIndex> {
+export function index<T>(list: List<T>, value: T): ReturnType<typeof findIndex> {
 	return findIndex(list, (item) => item === value);
 }
 
-export function find<T = unknown>(list: List, callback: IterationCb<T, boolean>) {
-	return (function checkItem(ls: List, index = 0): T | undefined  {
+export function find<T>(list: List<T>, callback: IterationCb<T, boolean>) {
+	return (function checkItem(ls: List<T>, index = 0): T | undefined  {
 		if(isEmpty(ls)) {
 			return undefined;
 		}
@@ -95,8 +95,8 @@ export function find<T = unknown>(list: List, callback: IterationCb<T, boolean>)
 	}(list));
 }
 
-export function nth<T = unknown>(list: List, index: number): T | undefined {
-	return find<T>(list, (item, i) => index === i);
+export function nth<T>(list: List<T>, index: number): T | undefined {
+	return find(list, (item, i) => index === i);
 }
 
 export function length(list: List) {
@@ -109,7 +109,7 @@ export function length(list: List) {
 	}(list));
 }
 
-export function setNth(list: List, index: number, value: unknown) {
+export function setNth<T>(list: List<T>, index: number, value: T) {
 	if(index < 0) {
 		const lsLength = length(list);
 
@@ -120,7 +120,7 @@ export function setNth(list: List, index: number, value: unknown) {
 		index = lsLength + index;
 	}
 
-	return (function getItem(ls: List, i = 0): List | never  {
+	return (function getItem(ls: List<T>, i = 0): List<T> | never  {
 		if(isEmpty(ls)) {
 			throw new Error(`Index '${index}' outside the list`);
 		}
@@ -131,20 +131,20 @@ export function setNth(list: List, index: number, value: unknown) {
 
 		return prepand(
 			getItem(tail(ls), i + 1),
-			top(ls)
+			<T>top(ls)
 		);
 	}(list));
 }
 
-export function join(list0: List, list1: List) {
-	return (function getList(ls: List): List {
+export function join<T>(list0: List<T>, list1: List<T>) {
+	return (function getList(ls: List<T>): List<T> {
 		if(isEmpty(ls)) {
 			return list1;
 		}
 
 		return prepand(
 			getList(tail(ls)),
-			top(ls)
+			<T>top(ls)
 		);
 	}(list0));
 }
