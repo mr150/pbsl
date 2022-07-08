@@ -1,4 +1,4 @@
-import {pair, fir, sec, toString, isPair} from '../src/pair';
+import {pair, fir, sec, toString, isPair} from '../pair';
 import {assert} from 'chai';
 
 describe('pair', () => {

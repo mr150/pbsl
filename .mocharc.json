@@ -1,7 +1,12 @@
 {
 	"extension": ["ts"],
 	"require": ["ts-node/register"],
-	"watch-files": ["src/**/*.ts", "test/**/*.ts"],
+	"watch-files": [
+		"pair/**/*.ts",
+		"list/**/*.ts",
+		"map/**/*.ts",
+		"test/**/*.ts"
+	],
 	"recursive": true,
 	"reporter": "min"
 }

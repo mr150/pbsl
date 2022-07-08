@@ -5,6 +5,12 @@
   "scripts": {
     "test": "mocha"
   },
+	"files": [
+		"./pair",
+		"./list",
+		"./map",
+		"./dist"
+	],
   "keywords": [
     "sass",
     "sicp",

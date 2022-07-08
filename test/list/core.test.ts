@@ -1,5 +1,5 @@
-import { pair } from '../../src/pair';
-import { l, top, tail, isEmpty, toString, prepand } from '../../src/list';
+import { pair } from '../../pair';
+import { l, top, tail, isEmpty, toString, prepand } from '../../list';
 import {assert} from 'chai';
 
 describe('list/core', () => {

@@ -21,7 +21,7 @@ All structures based on **pairs**.
 ### Pair
 Pair is simple structure that consist of 2 any type elements. Pair may contain other pairs.
 ```ts
-import { pair, fir, sec, toString } from 'pbsl/src/pair';
+import { pair, fir, sec, toString } from 'pbsl/pair';
 
 const myPair = pair(1, 2);
 const nestedPair = pair('testou', myPair);
@@ -36,8 +36,8 @@ toString(nestedPair) // (testou, (1, 2))
 ### List
 The list is an orderly sequence of any elements. By default, the list are typed by first item. Also you can specify the type manually.
 ```ts
-import { pair } from 'pbsl/src/pair';
-import { l, top, tail, toString, prepand } from 'pbsl/src/list';
+import { pair } from 'pbsl/pair';
+import { l, top, tail, toString, prepand } from 'pbsl/list';
 
 const myList = l(2, 5, 6);
 const pairInList = l<unknown>(pair(1, 0), 'item', 'end');
@@ -73,8 +73,8 @@ And main functions for working with sequences with js [Array-like API](https://d
 ### Map
 Map is a `list` of `pairs` in the 'key-value' format. The map is created based on array with a tuples with 2 elements: key and value. Typed like a list with ability to specify a types.
 ```ts
-import { mkMap, get, set } from 'pbsl/src/map';
-import { toString } from 'pbsl/src/list';
+import { mkMap, get, set } from 'pbsl/map';
+import { toString } from 'pbsl/list';
 
 const myMap = mkMap([['name', 'mister'], ['age', '54']]);
 const codes = mkMap([[200, 'ok'], [403, 'forbidden'], [404, 'not found']]);
