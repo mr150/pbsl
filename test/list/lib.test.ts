@@ -1,6 +1,6 @@
-import { pair } from '../../pair';
-import { l, toString, prepand } from '../../list/core';
-import { map, filter, reduce, append, findIndex, find, index, nth, length, setNth, join } from '../../list/lib';
+import { pair } from '../../src/pair';
+import { l, toString, prepand } from '../../src/list/core';
+import { map, filter, reduce, append, findIndex, find, index, nth, length, setNth, join } from '../../src/list/lib';
 import {assert} from 'chai';
 
 describe('list/lib', () => {

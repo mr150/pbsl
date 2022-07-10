@@ -1,6 +1,6 @@
-import { pair } from '../pair';
-import { mkMap, get, set, has, remove, keys, values, merge } from '../map';
-import { toString } from '../list';
+import { pair } from '../src/pair';
+import { mkMap, get, set, has, remove, keys, values, merge } from '../src/map';
+import { toString } from '../src/list';
 import { assert } from 'chai';
 
 describe('map', () => {
