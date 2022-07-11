@@ -1,6 +1,7 @@
-import { pair, fir, sec, isPair } from '../pair';
-import type { List, EmptyList } from './types';
+import { pair, fir, sec, isPair, Pair } from '../pair';
 
+export type EmptyList = null;
+export type List<T = unknown> = Pair<T, Pair<T, null> | null> | EmptyList;
 
 export function prepand<T>(ls: List<T>, val: T): List<T> {
 	return <List<T>>pair(val, ls, 'list');

@@ -1,8 +1,9 @@
-import { PbMap } from './types';
 import {
 	l, find, findIndex, setNth, prepand, filter, map, join, List, isEmpty, isFilledList
 } from '../list';
 import { pair, fir, sec, Pair } from '../pair';
+
+export type PbMap<Key = unknown, Value = unknown> = List<Pair<Key, Value>>;
 
 export function mkMap<K, V>(entries?: [K, V][]): PbMap<K, V> {
 	if(entries === undefined) {

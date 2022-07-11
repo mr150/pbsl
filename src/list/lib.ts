@@ -1,5 +1,7 @@
-import type { List, IterationCb, ReduceCb } from './types';
-import { l, top, tail, isEmpty, prepand } from './core';
+import { l, top, tail, isEmpty, prepand, List } from './core';
+
+export type IterationCb<Arg, Ret> = (item: Arg, index: number) => Ret;
+export type ReduceCb<Arg, Accum> = (accum: Accum, item: Arg, index: number) => Accum;
 
 export function map<I, R>(list: List<I>, callback: IterationCb<I, R>) {
 	return (function mapItem(ls: List<I>, index = 0): List<R> {
