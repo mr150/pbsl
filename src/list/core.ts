@@ -40,11 +40,7 @@ export const tail = <T>(ls: List<T>): List<T> => {
 }
 
 export function isFilledList(ls: unknown): ls is List {
-	try {
-		return typeof ls === 'function' && ls('TYPE') === 'list';
-	} catch {
-		return false;
-	}
+	return typeof ls === 'function' && (<Pair>ls)._type === 'list';
 }
 
 export function toString(list: List) {
