@@ -1,7 +1,7 @@
 import {
 	l, find, findIndex, setNth, prepand, filter, map, join, List, isEmpty, isFilledList
 } from '../list';
-import { pair, fir, sec, Pair } from '../pair';
+import { pair, fir, sec, isPair, Pair } from '../pair';
 
 export type PbMap<Key = unknown, Value = unknown> = List<Pair<Key, Value>>;
 
@@ -13,6 +13,14 @@ export function mkMap<K, V>(entries?: [K, V][]): PbMap<K, V> {
 	return l(
 		...entries.map((item) => pair(item[0], item[1]))
 	);
+}
+
+export function isPbMap(mp: unknown): mp is PbMap {
+	if(isFilledList(mp)) {
+		return find(mp, (item) => !isPair(item)) === undefined;
+	}
+
+	return false;
 }
 
 export function get<K, V>(mp: PbMap<K, V>, key: K): V | undefined {

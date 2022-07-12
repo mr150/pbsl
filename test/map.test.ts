@@ -1,6 +1,6 @@
 import { pair } from '../src/pair';
-import { mkMap, get, set, has, remove, keys, values, merge } from '../src/map';
-import { toString } from '../src/list';
+import { mkMap, get, set, has, remove, keys, values, merge, isPbMap } from '../src/map';
+import { l, toString } from '../src/list';
 import { assert } from 'chai';
 
 describe('map', () => {
@@ -135,6 +135,32 @@ describe('map', () => {
 		assert.equal(
 			toString(merge(myMap, empty)),
 			'((name, mister), (age, 54))'
+		);
+	});
+
+	it('PbMap typeguard', () => {
+		assert.strictEqual(
+			isPbMap(myMap), true
+		);
+
+		assert.strictEqual(
+			isPbMap(pair(5, 2)), false
+		);
+
+		assert.strictEqual(
+			isPbMap(l(5, 2)), false
+		);
+
+		assert.strictEqual(
+			isPbMap(l(l(5), l(6))), false
+		);
+
+		assert.strictEqual(
+			isPbMap(l<any>(pair(1, 0), 2)), false
+		);
+
+		assert.strictEqual(
+			isPbMap(empty), false
 		);
 	});
 });
