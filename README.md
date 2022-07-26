@@ -1,7 +1,7 @@
 # Pairs based structures library
 Functional library for manipulation of pairs-based data structures with [Sass](https://sass-lang.com/)-like API. Original ideas from [SICP](https://mitpress.mit.edu/sites/default/files/sicp/index.html).
 
-Project for study. **Not** for production.
+Library for study. **Not** for production projects.
 
 ## About
 The library contains 3 data structures and functions for working with them. Key features:
@@ -95,7 +95,7 @@ For working with maps also used [Sass-like API](https://sass-lang.com/documentat
 
 ## Installation
 ```bash
-npm i -D github:mr150/pbsl
+npm i -D pbsl
 ```
 
 ## License
