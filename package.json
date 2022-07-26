@@ -1,12 +1,12 @@
 {
   "name": "pbsl",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Functional library for manipulation of pairs-based data structures with Sass-like API",
-	"files": [
-		"pair",
-		"map",
-		"list"
-	],
+  "files": [
+    "pair",
+    "map",
+    "list"
+  ],
   "scripts": {
     "test": "mocha",
     "build": "rm pair -rf && rm list -rf && rm map -rf && tsc -p tsconfig.build.json"
